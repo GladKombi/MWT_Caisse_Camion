@@ -1,0 +1,19 @@
+Options -MultiViews
+RewriteEngine On
+
+# La racine du projet est la page d'accueil publique.
+RewriteRule ^Index\.php$ - [L]
+RewriteRule ^$ Index.php [L]
+
+# Les fichiers statiques sont servis depuis public/assets.
+RewriteRule ^public/assets/ - [L]
+RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+RewriteRule ^public/uploads/ - [L]
+RewriteRule ^uploads/(.*)$ public/uploads/$1 [L]
+
+# Toutes les routes applicatives passent une seule fois par le front controller.
+# Les URL contenant encore /public restent acceptées pour compatibilité.
+RewriteRule ^public/index\.php$ - [L]
+RewriteRule ^public/?$ public/index.php [L,QSA]
+RewriteRule ^public/.*$ public/index.php [L,QSA]
+RewriteRule ^.*$ public/index.php [L,QSA]

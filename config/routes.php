@@ -1,0 +1,19 @@
+<?php
+return [
+    '/' => ['controller' => 'DashboardController', 'method' => 'index'],
+    '/login' => ['controller' => 'AuthController', 'method' => 'login'],
+    '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
+    '/dashboard' => ['controller' => 'DashboardController', 'method' => 'index'],
+    '/travailleurs' => ['controller' => 'TravailleurController', 'method' => 'index'],
+    '/fonctions' => ['controller' => 'FonctionController', 'method' => 'index'],
+    '/vehicules' => ['controller' => 'VehiculeController', 'method' => 'index'],
+    '/affectations' => ['controller' => 'AffectationVehiculeController', 'method' => 'index'],
+    '/recettes' => ['controller' => 'RecetteController', 'method' => 'index'],
+    '/depenses' => ['controller' => 'DepenseController', 'method' => 'index'],
+    '/categories-depenses' => ['controller' => 'CategorieDepenseController', 'method' => 'index'],
+    '/remunerations' => ['controller' => 'RemunerationController', 'method' => 'index'],
+    '/caisse' => ['controller' => 'CaisseController', 'method' => 'index'],
+    '/utilisateurs' => ['controller' => 'UtilisateurController', 'method' => 'index'],
+    '/rapports' => ['controller' => 'RapportController', 'method' => 'index'],
+    '/audit' => ['controller' => 'AuditController', 'method' => 'index'],
+];

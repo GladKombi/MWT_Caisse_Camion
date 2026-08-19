@@ -1,0 +1,2 @@
+<?php
+// Vue à compléter.

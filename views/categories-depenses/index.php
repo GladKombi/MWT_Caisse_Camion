@@ -1,0 +1,1 @@
+<h1>Catégories de dépenses</h1>

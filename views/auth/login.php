@@ -265,13 +265,14 @@
             </div>
 
             <!-- Error Message -->
-            <div class="alert-error" id="errorMessage">
+            <div class="alert-error <?= isset($error)?'show':'' ?>" id="errorMessage" role="alert">
                 <i class="bi bi-exclamation-circle me-2"></i>
-                <span id="errorText">Matricule ou mot de passe incorrect</span>
+                <span id="errorText"><?= htmlspecialchars($error??'Matricule ou mot de passe incorrect.',ENT_QUOTES,'UTF-8') ?></span>
             </div>
 
             <!-- Login Form -->
             <form id="loginForm" method="POST" action="<?= htmlspecialchars(BASE_URL . '/login', ENT_QUOTES, 'UTF-8') ?>">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['login_csrf']??'',ENT_QUOTES,'UTF-8') ?>">
                 <div class="form-group">
                     <label class="form-label" for="matricule">Matricule</label>
                     <div class="input-wrapper">
@@ -282,6 +283,8 @@
                             id="matricule" 
                             name="matricule" 
                             placeholder="Entrez votre matricule"
+                            value="<?= htmlspecialchars($matricule??'',ENT_QUOTES,'UTF-8') ?>"
+                            autocomplete="username"
                             required
                         >
                     </div>
@@ -297,6 +300,8 @@
                             id="password" 
                             name="password" 
                             placeholder="Entrez votre mot de passe"
+                            minlength="4"
+                            autocomplete="current-password"
                             required
                         >
                         <button 

@@ -33,6 +33,9 @@ class App
         if ($uri !== '/login') {
             require_once dirname(__DIR__) . '/middleware/AuthMiddleware.php';
             AuthMiddleware::handle();
+            if(($_SESSION['user']['role']??'')==='EMPLOYE'&&!in_array($uri,['/mon-espace','/logout'],true)){
+                header('Location: '.BASE_URL.'/mon-espace');exit;
+            }
         }
 
         $route = $routes[$uri];

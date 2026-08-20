@@ -15,11 +15,11 @@ class UtilisateurController extends Controller
             return;
         }
 
-        $utilisateurs = $model->getAll();
+        $utilisateurs = $model->getAll();$travailleurs=$model->getAvailableWorkers();
         $message = $_SESSION['user_message'] ?? null;
         $messageType = $_SESSION['user_message_type'] ?? 'success';
         unset($_SESSION['user_message'], $_SESSION['user_message_type']);
-        $this->view('utilisateurs/index', compact('utilisateurs', 'message', 'messageType'));
+        $this->view('utilisateurs/index', compact('utilisateurs','travailleurs','message','messageType'));
     }
 
     private function handlePost(Utilisateur $model): void
@@ -29,22 +29,24 @@ class UtilisateurController extends Controller
         $nomUtilisateur = trim($_POST['nom_utilisateur'] ?? '');
         $role = strtoupper(trim($_POST['role'] ?? ''));
         $password = $_POST['mot_de_passe'] ?? '';
+        $travailleurId=$role==='EMPLOYE'?(int)($_POST['travailleur_id']??0):0;if($role==='EMPLOYE'&&$travailleurId<=0)$travailleurId=0;
 
         try {
             if ($action === 'delete') {
                 if ($id === (int) ($_SESSION['user']['id'] ?? 0)) throw new RuntimeException('Vous ne pouvez pas désactiver votre propre compte.');
                 $model->deactivate($id);
                 $this->setMessage('Utilisateur désactivé avec succès.');
-            } elseif (in_array($role, ['ADMIN', 'CEO', 'COMPTABLE'], true) && $nomUtilisateur !== '') {
+            } elseif (in_array($role, ['ADMIN', 'CEO', 'COMPTABLE', 'EMPLOYE'], true) && $nomUtilisateur !== '') {
+                if($role==='EMPLOYE'&&$travailleurId>0&&$model->workerAlreadyLinked($travailleurId,$id))throw new RuntimeException('Ce travailleur possède déjà un compte employé actif.');
                 if ($action === 'create') {
                     if (strlen($password) < 4) throw new RuntimeException('Le mot de passe doit contenir au moins 4 caractères.');
                     $profil = $this->uploadProfil();
-                    $matricule = $model->create($nomUtilisateur, $password, $role, $profil ?? '');
+                    if($role==='EMPLOYE'&&$travailleurId<=0)throw new RuntimeException('Sélectionnez le travailleur lié à ce compte.');$matricule = $model->create($nomUtilisateur,$password,$role,$profil??'',$travailleurId?:null);
                     $this->setMessage("Utilisateur créé avec succès. Matricule : {$matricule}");
                 } elseif ($action === 'update' && $id > 0) {
                     if ($password !== '' && strlen($password) < 4) throw new RuntimeException('Le mot de passe doit contenir au moins 4 caractères.');
                     $profil = $this->uploadProfil();
-                    $model->update($id, $nomUtilisateur, $role, $password, $profil);
+                    if($role==='EMPLOYE'&&$travailleurId<=0)throw new RuntimeException('Sélectionnez le travailleur lié à ce compte.');$model->update($id,$nomUtilisateur,$role,$password,$profil,$travailleurId?:null);
                     if ($id === (int) ($_SESSION['user']['id'] ?? 0)) {
                         $_SESSION['user']['nom_utilisateur'] = $nomUtilisateur;
                         if ($profil !== null) $_SESSION['user']['profil'] = $profil;

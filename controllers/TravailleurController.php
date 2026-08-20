@@ -40,9 +40,10 @@ class TravailleurController extends Controller
         if ($sexe !== '' && !in_array($sexe, ['M','F'], true)) throw new RuntimeException('Le sexe est invalide.');
         if (!in_array($statut, ['ACTIF','SUSPENDU','LICENCIE'], true)) throw new RuntimeException('Le statut est invalide.');
         $email = trim($_POST['email'] ?? ''); if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) throw new RuntimeException('L’adresse email est invalide.');
+        $password=$_POST['motde_passe']??'';if(($_POST['action']??'')==='create'&&strlen($password)<4)throw new RuntimeException('Le mot de passe doit contenir au moins 4 caractères.');if($password!==''&&strlen($password)<4)throw new RuntimeException('Le mot de passe doit contenir au moins 4 caractères.');
         return ['nom'=>$nom,'postnom'=>trim($_POST['postnom']??''),'prenom'=>trim($_POST['prenom']??''),'sexe'=>$sexe,
             'telephone'=>trim($_POST['telephone']??''),'email'=>$email,'adresse'=>trim($_POST['adresse']??''),
-            'date_embauche'=>trim($_POST['date_embauche']??''),'statut'=>$statut];
+            'date_embauche'=>trim($_POST['date_embauche']??''),'statut'=>$statut,'motde_passe'=>$password];
     }
 
     private function uploadProfil(): ?string

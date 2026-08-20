@@ -22,7 +22,7 @@ CREATE TABLE travailleurs (
     sexe ENUM('M', 'F') NULL,
     telephone VARCHAR(30) NULL,
     email VARCHAR(150) NULL UNIQUE,
-    motde_passe VARCHAR(255) DEFAULT '1234',
+    motde_passe VARCHAR(255) NOT NULL COMMENT 'Toujours stocké avec password_hash()',
     adresse VARCHAR(255) NULL,
     date_embauche DATE NULL,
     profil VARCHAR(255) NOT NULL DEFAULT '',
@@ -106,10 +106,26 @@ CREATE TABLE categories_depenses (
 -- ============================================================
 -- 7. REMUNERATIONS DES TRAVAILLEURS
 -- ============================================================
+CREATE TABLE clotures_caisse (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    vehicule_id INT UNSIGNED NOT NULL,
+    total_recettes_usd DECIMAL(15,2) NOT NULL DEFAULT 0,
+    total_depenses_usd DECIMAL(15,2) NOT NULL DEFAULT 0,
+    total_recettes_cdf DECIMAL(15,2) NOT NULL DEFAULT 0,
+    total_depenses_cdf DECIMAL(15,2) NOT NULL DEFAULT 0,
+    nombre_recettes INT UNSIGNED NOT NULL DEFAULT 0,
+    nombre_depenses INT UNSIGNED NOT NULL DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
 CREATE TABLE remunerations_travailleur (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    cloture_id INT UNSIGNED NULL COMMENT 'Reference vers clotures_caisse.id',
     attribution_id INT UNSIGNED NOT NULL COMMENT 'Référence vers attribution_fonctions.id',
     affectation_vehicule_id INT UNSIGNED NOT NULL COMMENT 'Référence vers affectations_vehicule.id',
+    taux_remuneration DECIMAL(15,2) NOT NULL DEFAULT 0,
+    montant DECIMAL(15,2) NOT NULL,
+    devise ENUM('USD', 'CDF') NOT NULL DEFAULT 'USD',
     date_debut DATE NOT NULL,
     date_fin DATE NULL,
     actif TINYINT(1) NOT NULL DEFAULT 1 COMMENT '0: inactif, 1: actif',
@@ -122,10 +138,11 @@ CREATE TABLE remunerations_travailleur (
 -- ============================================================
 CREATE TABLE utilisateurs (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    travailleur_id INT UNSIGNED NULL COMMENT 'Travailleur lié pour un compte EMPLOYE',
     nom_utilisateur VARCHAR(100) NOT NULL,
     matricule VARCHAR(100) NOT NULL UNIQUE COMMENT 'Format automatique: ADMIN-001/2026',
     mot_de_passe VARCHAR(255) NOT NULL,
-    role ENUM('ADMIN', 'CEO', 'COMPTABLE') NOT NULL DEFAULT 'ADMIN',
+    role ENUM('ADMIN', 'CEO', 'COMPTABLE', 'EMPLOYE') NOT NULL DEFAULT 'ADMIN',
     profil VARCHAR(255) NOT NULL DEFAULT '',
     statut INT DEFAULT 0 COMMENT '0: actif, 1: supprimé',
     derniere_connexion DATETIME NULL,
@@ -160,6 +177,7 @@ CREATE TABLE depenses (
     libelle VARCHAR(255) NOT NULL,
     montant DECIMAL(15,2) NOT NULL,
     devise ENUM('USD', 'CDF') NOT NULL DEFAULT 'USD',
+    cloturer INT NOT NULL DEFAULT 0 COMMENT '0: ouverte, 1: clôturée par véhicule',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT chk_depenses_montant CHECK (montant > 0)

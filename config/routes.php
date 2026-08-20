@@ -4,6 +4,7 @@ return [
     '/login' => ['controller' => 'AuthController', 'method' => 'login'],
     '/logout' => ['controller' => 'AuthController', 'method' => 'logout'],
     '/dashboard' => ['controller' => 'DashboardController', 'method' => 'index'],
+    '/mon-espace' => ['controller' => 'EspaceEmployeController', 'method' => 'index'],
     '/travailleurs' => ['controller' => 'TravailleurController', 'method' => 'index'],
     '/fonctions' => ['controller' => 'FonctionController', 'method' => 'index'],
     '/vehicules' => ['controller' => 'VehiculeController', 'method' => 'index'],

@@ -649,24 +649,24 @@
                         <div class="icon-wrapper">
                             <i class="bi bi-shield-lock"></i>
                         </div>
-                        <h3>Administrateur</h3>
+                        <h3>ADMIN</h3>
                         <p>Gestion complète du système</p>
-                        <a href="login?fonction=admin" class="btn-custom-green">
+                        <a href="login" class="btn-custom-green">
                             <i class="bi bi-box-arrow-in-right"></i>
                             Connexion
                         </a>
                     </div>
                 </div>
                 
-                <!-- Employeur -->
+                <!-- Direction -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="login-card">
                         <div class="icon-wrapper">
-                            <i class="bi bi-briefcase"></i>
+                            <i class="bi bi-building"></i>
                         </div>
-                        <h3>Employeur</h3>
-                        <p>Gestion des opérations</p>
-                        <a href="login?fonction=Employeur" class="btn-custom-green">
+                        <h3>CEO</h3>
+                        <p>Supervision et rapports stratégiques</p>
+                        <a href="login" class="btn-custom-green">
                             <i class="bi bi-box-arrow-in-right"></i>
                             Connexion
                         </a>
@@ -679,24 +679,24 @@
                         <div class="icon-wrapper">
                             <i class="bi bi-person-badge"></i>
                         </div>
-                        <h3>Employé</h3>
-                        <p>Espace personnel</p>
-                        <a href="login?fonction=Employe" class="btn-custom-green">
+                        <h3>EMPLOYE</h3>
+                        <p>Accès aux opérations autorisées</p>
+                        <a href="login" class="btn-custom-green">
                             <i class="bi bi-box-arrow-in-right"></i>
                             Connexion
                         </a>
                     </div>
                 </div>
-                
+
                 <!-- Comptable -->
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="login-card">
                         <div class="icon-wrapper">
                             <i class="bi bi-calculator"></i>
                         </div>
-                        <h3>Comptable</h3>
+                        <h3>COMPTABLE</h3>
                         <p>Gestion financière</p>
-                        <a href="login?fonction=comptable" class="btn-custom-green">
+                        <a href="login" class="btn-custom-green">
                             <i class="bi bi-box-arrow-in-right"></i>
                             Connexion
                         </a>

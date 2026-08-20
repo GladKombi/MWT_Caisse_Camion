@@ -27,16 +27,7 @@ $soldeUsd = $stats['recettes']['USD'] - $stats['depenses']['USD'];
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head><body><div class="dashboard-shell">
 <div class="mobile-overlay" id="mobile-overlay" onclick="toggleSidebar()"></div>
-<aside class="dashboard-sidebar" id="dashboard-sidebar">
-    <a class="brand" href="<?= BASE_URL ?>/dashboard"><span class="brand-icon"><i class="bi bi-truck"></i></span><span><strong>MWIRA Trans</strong><small>Gestion de transport</small></span></a>
-    <nav class="dashboard-nav">
-        <span class="nav-heading">Vue générale</span><a class="active" href="<?= BASE_URL ?>/dashboard"><i class="bi bi-grid-1x2"></i> Tableau de bord</a>
-        <span class="nav-heading">Exploitation</span><a href="<?= BASE_URL ?>/vehicules"><i class="bi bi-truck"></i> Véhicules</a><a href="<?= BASE_URL ?>/travailleurs"><i class="bi bi-people"></i> Travailleurs</a><a href="<?= BASE_URL ?>/affectations"><i class="bi bi-arrow-left-right"></i> Affectations</a>
-        <span class="nav-heading">Finances</span><a href="<?= BASE_URL ?>/recettes"><i class="bi bi-graph-up-arrow"></i> Recettes</a><a href="<?= BASE_URL ?>/depenses"><i class="bi bi-wallet2"></i> Dépenses</a><a href="<?= BASE_URL ?>/caisse"><i class="bi bi-bank"></i> Caisse</a><a href="<?= BASE_URL ?>/rapports"><i class="bi bi-bar-chart"></i> Rapports</a>
-        <?php if ($role === 'ADMIN'): ?><span class="nav-heading">Administration</span><a href="<?= BASE_URL ?>/utilisateurs"><i class="bi bi-person-gear"></i> Utilisateurs</a><a href="<?= BASE_URL ?>/audit"><i class="bi bi-journal-text"></i> Audit</a><?php endif; ?>
-    </nav>
-    <div class="sidebar-user"><span class="avatar"><?php if ($profil): ?><img src="<?= BASE_URL . '/' . htmlspecialchars($profil) ?>" alt="Profil"><?php else: ?><?= htmlspecialchars($initiales) ?><?php endif; ?></span><span class="user-copy"><strong><?= htmlspecialchars($nomUtilisateur) ?></strong><small><?= htmlspecialchars($role) ?></small></span><a class="logout" href="<?= BASE_URL ?>/logout" title="Déconnexion"><i class="bi bi-box-arrow-right"></i></a></div>
-</aside>
+<?php require dirname(__DIR__).'/layouts/sidebar.php'; ?>
 <main class="dashboard-main">
     <header class="dashboard-topbar"><button class="menu-button" onclick="toggleSidebar()"><i class="bi bi-list"></i></button><div><h1>Tableau de bord</h1><p>Vue d’ensemble de votre activité</p></div><div class="topbar-date"><i class="bi bi-calendar3"></i> <?= date('d/m/Y') ?></div></header>
     <div class="dashboard-content">
